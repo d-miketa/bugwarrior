@@ -18,3 +18,7 @@ man/*
 *.idea
 .tox/*
 *.bak
+
+.direnv
+.envrc
+pyvenv.cfg
