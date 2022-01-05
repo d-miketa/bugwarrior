@@ -98,6 +98,7 @@ class JiraIssue(Issue):
     STATUS = 'jirastatus'
     SUBTASKS = 'jirasubtasks'
     PARENT = 'jiraparent'
+    STORY_POINTS = 'jirastorypoints'
 
     UDAS = {
         ISSUE_TYPE: {
@@ -143,7 +144,11 @@ class JiraIssue(Issue):
         PARENT: {
             'type': 'string',
             'label': 'Jira Parent'
-        }
+        },
+        STORY_POINTS: {
+            'type': 'numeric',
+            'label': 'Jira Story Points'
+        },
     }
     UNIQUE_KEY = (URL, )
 
@@ -179,6 +184,7 @@ class JiraIssue(Issue):
             self.STATUS: self.get_status(),
             self.SUBTASKS: self.get_subtasks(),
             self.PARENT: self.get_parent(),
+            self.STORY_POINTS: self.get_story_points(),
         }
 
     def get_entry(self):
@@ -311,6 +317,12 @@ class JiraIssue(Issue):
         try:
             return self.record['fields']['parent']['key']
         except (KeyError, ):
+            return None
+
+    def get_story_points(self):
+        try:
+            return int(self.record['fields']['customfield_10016'])
+        except (TypeError, ):
             return None
 
 
